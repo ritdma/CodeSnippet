@@ -1,0 +1,1 @@
+Get-ChildItem -Path C:\Windows\Temp *cab* | Where-Object LastWriteTime -lt  (Get-Date).AddDays(2) | Remove-Item -Force

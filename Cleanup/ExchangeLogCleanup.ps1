@@ -1,0 +1,3 @@
+Get-ChildItem -path 'C:\Inetpub\Logs' -include '*.log' ,'*.blg' -Recurse | Where-Object LastWriteTime -lt (Get-Date).AddDays(-4) | Remove-Item
+Get-ChildItem -path 'C:\Program Files\Microsoft\Exchange\V15\Logging' -include '*.log' -Recurse | Where-Object LastWriteTime -lt (Get-Date).AddDays(-4) | Remove-Item
+Get-ChildItem -path 'C:\Program Files\Microsoft\Exchange Server\V15\TransportRoles\data\Temp\UnifiedContent' | Where-Object LastWriteTime -lt (Get-Date).AddDays(-365) | Remove-Item
