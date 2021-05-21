@@ -1,6 +1,6 @@
 $s = Get-StorageSubSystem
-$spName = "RiTPool0"
-$vdName = "RiTDisk0"
+$spName = ""
+$vdName = ""
 $cols_ssdTier = 2    # how to incorporate those value?
 $cols_hddTier = 4    # how to incorporate those value?
 $s_CacheSize = 20       # maximum possible size according to above sizes

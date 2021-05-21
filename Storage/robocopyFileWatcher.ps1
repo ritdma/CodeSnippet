@@ -1,5 +1,5 @@
 $rootSourceFolder = 's:\' # Zu überwachendes Verzeichnis.
-$rootDestinationFolder ='T:\ARCHIV\' #Stammpfad für das Ziel
+$rootDestinationFolder ='T:\' #Stammpfad für das Ziel
 #$filter = '*.*'  # Filtermöglichkeiten für Dateien.
 $logPath = 'C:\Skripte\' # Pfad für die Logdatei
 
