@@ -8,14 +8,17 @@ $currentDSUversion = "1.9.1.0"
 $downloadDSU = "https://dl.dell.com/FOLDER07144386M/1/Systems-Management_Application_55R7T_WN64_1.9.1.0_A00.EXE"
 $downloadNotificationBridge = "https://bitbucket.org/paulcsiki/notification-bridge-plugin/downloads/Notification%20Bridge%201.3.zip"
 
-# Ordnerstruktur anlegen, falls nicht vorhanden
+# Pfade definieren
 $pathDsuRoot = "C:\ProgramData\Dell\DELL EMC System Update"
 $pathDsuProgram = "C:\Program Files\Dell\DELL EMC System Update"
 $pathTempDownload = "C:\Temp"
+$pathNotificationBridge = "C:\Skripte\Pulseway-Addins\NotificationBridge"
+
 $pathDsuData = "$pathDsuRoot\dell_dup"
 $pathDsuLog = "$pathDsuRoot\Log.txt"
 $pathDsuLogArchive = "$pathDsuData\Log-Archiv"
-$pathNotificationBridge = "C:\Skripte\Pulseway-Addins\NotificationBridge"
+
+# Ordnerstruktur anlegen, falls nicht vorhanden
 
 If(!(Test-Path $pathDsuLogArchive))
 {
@@ -147,24 +150,29 @@ $exitCodeNeustart = $logInhalt | ForEach-Object{$_ -match "Exit Code: 8"}
 
 If ($exitCodeErfolg -contains $true) {
     $textErfolg = "DELL EMC System Update erfolgreich abgeschlossen. "+$textErgebnis
-    Write-Host $textErfolg
+    & "$pathNotificationBridge\Notify.exe" -p 1 -t $textErfolg
+
 } 
 ElseIf (($exitCodeFehler -contains $true) -or ($exitCodeUpdateFehler -contains $true)) {
     $textFehler = "DELL EMC System Update mit Fehlern beendet. "+$textErgebnis
     Write-Host $textFehler
+    & "$pathNotificationBridge\Notify.exe" -p 3 -t $textFehler
 }
 ElseIf ($exitCodeRechtemangel -contains $true)
 { 
     $textRechtemangel = "DELL EMC System Update erfordert höhere Rechte!"
     Write-Host $textRechtemangel
+    & "$pathNotificationBridge\Notify.exe" -p 3 -t $textRechtemangel
 }
 ElseIf ($exitCodeNeustart -contains $true)
 {
-    $textRechtemangel = "DSU-Updateinstallation erfordert Neustart. "+$textErgebnis
-    Write-Host $textRechtemangel
+    $textNeustartErforderlich = "DSU-Updateinstallation erfordert Neustart. "+$textErgebnis
+    Write-Host $textNeustartErforderlich
+    & "$pathNotificationBridge\Notify.exe" -p 2 -t $textNeustartErforderlich
 }
 Else
 {
     $textSonstiges = "Unbekannte Ausnahme in DELL EMC System Update. Bitte Log prüfen. "+$textErgebnis
     Write-Host $textSonstiges
+    & "$pathNotificationBridge\Notify.exe" -p 3 -t $textSonstiges
 }
